@@ -1,0 +1,54 @@
+{
+  "name": "parcel-css-loader",
+  "version": "1.0.0",
+  "main": "dist/index.js",
+  "description": "Speed up your Webpack build with parcel css",
+  "keywords": [
+    "css-loader",
+    "parcel-css",
+    "parcel-css-loader",
+    "parcel",
+    "webpack-loader",
+    "webpack-css-minifier"
+  ],
+  "homepage": "https://github.com/fz6m/parcel-css-loader#README",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/fz6m/parcel-css-loader"
+  },
+  "license": "MIT",
+  "author": "fz6m",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "preinstall": "npx only-allow pnpm",
+    "dev": "tsc --watch",
+    "build": "rimraf dist && tsc",
+    "prepare": "husky install",
+    "prepublishOnly": "pnpm build",
+    "push": "npm_config_registry=https://registry.npmjs.com/ npm publish"
+  },
+  "dependencies": {
+    "@parcel/css": "^1.3.2",
+    "safe-buffer": "^5.2.1"
+  },
+  "devDependencies": {
+    "@fz6m/eslint-plugin-sakina": "^1.1.0",
+    "@types/webpack-sources": "^3.2.0",
+    "browserslist": "^4.19.3",
+    "commit-verify": "^1.0.2",
+    "eslint": "^8.9.0",
+    "husky": "^7.0.4",
+    "only-allow": "^1.1.0",
+    "prettier": "^2.5.1",
+    "rimraf": "^3.0.2",
+    "tapable": "^2.2.1",
+    "typescript": "^4.5.5",
+    "webpack": "^5.69.1",
+    "webpack-sources": "^3.2.3"
+  },
+  "peerDependencies": {
+    "webpack": ">=5"
+  }
+}

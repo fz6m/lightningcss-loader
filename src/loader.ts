@@ -25,7 +25,7 @@ export async function ParcelCssLoader(
   const transform = implementation?.transform ?? _transform
 
   try {
-    const { code, map } = await transform({
+    const { code, map } = transform({
       filename: this.resourcePath,
       code: Buffer.from(source),
       sourceMap: this.sourceMap,

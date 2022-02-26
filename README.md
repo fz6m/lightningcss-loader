@@ -36,6 +36,9 @@ webpack config example:
 ```diff
 // webpack.config.js
 
+// need install `@parcel/css`
+const parcelCSS = require('@parcel/css')
+
 module.exports = {
   module: {
     rules: [
@@ -45,7 +48,7 @@ module.exports = {
           'style-loader', // or MiniCssExtractPlugin.loader
           'css-loader',
 -         'postcss-loader',
-+         'parcel-css-loader',
++         ['parcel-css-loader', { implementation: parcelCSS }]
           'sass-loader'
         ],
       },
@@ -54,7 +57,7 @@ module.exports = {
 };
 ```
 
-parcel css can only provide `autoprefixer`, if you use custom postcss plugins, it is not recommended to use parcel css instead of postcss
+parcel css can replace `autoprefixer` and `postcss-preset-env`, if you use custom postcss plugins, you can use both `parcel-css-loader` and `postcss-loader`.
 
 ## Config
 

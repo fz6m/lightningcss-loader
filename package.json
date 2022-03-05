@@ -30,7 +30,7 @@
     "push": "npm_config_registry=https://registry.npmjs.com/ npm publish"
   },
   "dependencies": {
-    "@parcel/css": "^1.4.0"
+    "@parcel/css": "^1.5.0"
   },
   "devDependencies": {
     "@fz6m/eslint-plugin-sakina": "^1.1.0",
@@ -43,8 +43,8 @@
     "prettier": "^2.5.1",
     "rimraf": "^3.0.2",
     "tapable": "^2.2.1",
-    "typescript": "^4.5.5",
-    "webpack": "^5.69.1",
+    "typescript": "^4.6.2",
+    "webpack": "^5.70.0",
     "webpack-sources": "^3.2.3"
   },
   "peerDependencies": {

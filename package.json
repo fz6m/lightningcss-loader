@@ -29,23 +29,29 @@
     "push": "npm_config_registry=https://registry.npmjs.com/ npm publish"
   },
   "dependencies": {
-    "@parcel/css": "^1.7.3",
+    "@parcel/css": "^1.8.2",
     "webpack-sources": "^3.2.3"
   },
   "devDependencies": {
-    "@fz6m/eslint-plugin-sakina": "^1.1.1",
+    "@fz6m/eslint-plugin-sakina": "^2.0.2",
     "@types/webpack-sources": "^3.2.0",
-    "browserslist": "^4.20.2",
+    "browserslist": "^4.20.3",
     "commit-verify": "^1.0.3",
-    "eslint": "^8.12.0",
+    "eslint": "^8.15.0",
     "husky": "^7.0.4",
-    "prettier": "^2.6.1",
     "rimraf": "^3.0.2",
     "tapable": "^2.2.1",
-    "typescript": "^4.6.3",
-    "webpack": "^5.70.0"
+    "typescript": "^4.6.4",
+    "webpack": "^5.72.0"
   },
   "peerDependencies": {
     "webpack": ">=5"
-  }
+  },
+  "engines": {
+    "pnpm": "^7.0.1",
+    "node": ">= 16.14.1",
+    "yarn": "forbidden, use pnpm",
+    "npm": "forbidden, use pnpm"
+  },
+  "packageManager": "pnpm@7.0.1"
 }

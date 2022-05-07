@@ -1,6 +1,6 @@
 {
   "name": "parcel-css-loader",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "main": "dist/index.js",
   "description": "Speed up your Webpack build with parcel css",
   "keywords": [
@@ -46,12 +46,6 @@
   },
   "peerDependencies": {
     "webpack": ">=5"
-  },
-  "engines": {
-    "pnpm": "^7.0.1",
-    "node": ">= 16.14.1",
-    "yarn": "forbidden, use pnpm",
-    "npm": "forbidden, use pnpm"
   },
   "packageManager": "pnpm@7.0.1"
 }

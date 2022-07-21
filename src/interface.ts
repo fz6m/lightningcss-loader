@@ -23,6 +23,7 @@ export interface IMinifyPluginOpts extends AllowTransformOpts {
   include?: Filter | Filter[]
   exclude?: Filter | Filter[]
   targets?: string | string[]
+  test?: RegExp
   implementation?: Implementation
 }
 

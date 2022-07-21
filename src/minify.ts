@@ -24,7 +24,7 @@ export class ParcelCssMinifyPlugin {
   private readonly transform: TransformType
 
   constructor(opts: IMinifyPluginOpts = {}) {
-    const { implementation, test = CSS_FILE_REG, ...otherOpts } = opts
+    const { implementation,  ...otherOpts } = opts
     if (implementation && typeof implementation.transform !== 'function') {
       throw new TypeError(
         `[ParcelCssMinifyPlugin]: implementation.transform must be an '@parcel/css' transform function. Received ${typeof implementation.transform}`
@@ -33,7 +33,6 @@ export class ParcelCssMinifyPlugin {
 
     this.transform = implementation?.transform ?? _transform
     this.options = {
-      test,
       ...otherOpts
     }
   }
@@ -101,7 +100,7 @@ export class ParcelCssMinifyPlugin {
         // Filter out already minimized
         !asset.info.minimized &&
         // Filter out by file type
-        testRegExp.test(asset.name) &&
+        (testRegExp || CSS_FILE_REG).test(asset.name) &&
         matchObject({ include, exclude }, asset.name)
     )
 

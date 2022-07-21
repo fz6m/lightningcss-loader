@@ -47,8 +47,13 @@ module.exports = {
         use: [
           'style-loader', // or MiniCssExtractPlugin.loader
           'css-loader',
--         'postcss-loader',
-+         ['parcel-css-loader', { implementation: parcelCSS }]
+          'postcss-loader',
+          {
+            loader: 'parcel-css-loader',
+            options: {
+              implementation: parcelCSS
+            }
+          }
           'sass-loader'
         ],
       },

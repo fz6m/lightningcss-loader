@@ -7,7 +7,8 @@ import { getTargets } from './utils'
 const LOADER_NAME = `parcel-css-loader`
 export async function ParcelCssLoader(
   this: LoaderContext<IParcelCssLoaderConfig>,
-  source: string
+  source: string,
+  prevMap?: Record<string, any>
 ): Promise<void> {
   const done = this.async()
   const options = this.getOptions()
@@ -30,6 +31,8 @@ export async function ParcelCssLoader(
       code: Buffer.from(source),
       sourceMap: this.sourceMap,
       targets: getTargets({ default: userTargets, key: ECacheKey.loader }),
+      inputSourceMap:
+        this.sourceMap && prevMap ? JSON.stringify(prevMap) : undefined,
       ...opts,
     })
     const codeAsString = code.toString()

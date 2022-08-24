@@ -16,6 +16,7 @@ type AllowTransformOpts = Omit<
    * @analyzeDependencies
    * @pseudoClasses
    * @unusedSymbols
+   * @errorRecovery
    */
 >
 
@@ -30,18 +31,18 @@ export interface IMinifyPluginOpts extends AllowTransformOpts {
 // loader
 type AllowLoaderTransformOpts = Omit<
   TransformOptions,
-  'filename' | 'code' | 'targets'
+  'filename' | 'code' | 'targets' | 'inputSourceMap'
   /**
    * allow
    *
    * @cssModules
    * @minify
    * @sourceMap
-   * @targets
    * @drafts
    * @analyzeDependencies
    * @pseudoClasses
    * @unusedSymbols
+   * @errorRecovery
    */
 >
 

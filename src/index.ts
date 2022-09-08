@@ -1,4 +1,4 @@
-import { ParcelCssLoader } from './loader'
+import { LightningCssLoader } from './loader'
 
-export { ParcelCssMinifyPlugin } from './minify'
-export default ParcelCssLoader
+export { LightningCssMinifyPlugin } from './minify'
+export default LightningCssLoader

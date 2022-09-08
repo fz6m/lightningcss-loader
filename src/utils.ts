@@ -2,8 +2,8 @@ import type { Compilation } from 'webpack'
 import type { SyncHook, SyncBailHook, AsyncSeriesHook, HookMap } from 'tapable'
 import type { Source } from 'webpack-sources'
 import browserslist from 'browserslist'
-import { browserslistToTargets } from '@parcel/css'
-import type { Targets } from '@parcel/css/node/targets'
+import { browserslistToTargets } from 'lightningcss'
+import type { Targets } from 'lightningcss/node/targets'
 import { ECacheKey } from './interface'
 
 type StatsPrinter = {

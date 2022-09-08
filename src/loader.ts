@@ -1,12 +1,12 @@
 import type { LoaderContext } from 'webpack'
-import { ECacheKey, IParcelCssLoaderConfig } from './interface'
-import { transform as _transform } from '@parcel/css'
+import { ECacheKey, ILightningCssLoaderConfig } from './interface'
+import { transform as _transform } from 'lightningcss'
 import { Buffer } from 'buffer'
 import { getTargets } from './utils'
 
-const LOADER_NAME = `parcel-css-loader`
-export async function ParcelCssLoader(
-  this: LoaderContext<IParcelCssLoaderConfig>,
+const LOADER_NAME = `lightningcss-loader`
+export async function LightningCssLoader(
+  this: LoaderContext<ILightningCssLoaderConfig>,
   source: string,
   prevMap?: Record<string, any>
 ): Promise<void> {
@@ -17,7 +17,7 @@ export async function ParcelCssLoader(
   if (implementation && typeof implementation.transform !== 'function') {
     done(
       new TypeError(
-        `[${LOADER_NAME}]: options.implementation.transform must be an '@parcel/css' transform function. Received ${typeof implementation.transform}`
+        `[${LOADER_NAME}]: options.implementation.transform must be an 'lightningcss' transform function. Received ${typeof implementation.transform}`
       )
     )
     return

@@ -1,7 +1,7 @@
-import { transform, type TransformOptions } from '@parcel/css'
+import { transform, type TransformOptions } from 'lightningcss'
 
 type Filter = string | RegExp
-type Implementation = typeof import('@parcel/css')
+type Implementation = typeof import('lightningcss')
 
 // minify plugin
 type AllowTransformOpts = Omit<
@@ -46,7 +46,7 @@ type AllowLoaderTransformOpts = Omit<
    */
 >
 
-export interface IParcelCssLoaderConfig extends AllowLoaderTransformOpts {
+export interface ILightningCssLoaderConfig extends AllowLoaderTransformOpts {
   targets?: string | string[]
   implementation?: Implementation
 }

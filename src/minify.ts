@@ -1,7 +1,7 @@
 // @ts-ignore
 import { matchObject } from 'webpack/lib/ModuleFilenameHelpers'
 import { RawSource, SourceMapSource } from 'webpack-sources'
-import { transform as _transform } from '@parcel/css'
+import { transform as _transform } from 'lightningcss'
 import {
   ECacheKey,
   IMinifyPluginOpts,
@@ -16,10 +16,10 @@ import { Buffer } from 'buffer'
 const pkgPath = join(__dirname, '../package.json')
 const pkg = require(pkgPath) as IPackageJson
 
-const PLUGIN_NAME = 'parcel-css-minify'
+const PLUGIN_NAME = 'lightning-css-minify'
 const CSS_FILE_REG = /\.css(?:\?.*)?$/i
 
-export class ParcelCssMinifyPlugin {
+export class LightningCssMinifyPlugin {
   private readonly options: Omit<IMinifyPluginOpts, 'implementation'>
   private readonly transform: TransformType
 
@@ -27,7 +27,7 @@ export class ParcelCssMinifyPlugin {
     const { implementation, ...otherOpts } = opts
     if (implementation && typeof implementation.transform !== 'function') {
       throw new TypeError(
-        `[ParcelCssMinifyPlugin]: implementation.transform must be an '@parcel/css' transform function. Received ${typeof implementation.transform}`
+        `[LightningCssMinifyPlugin]: implementation.transform must be an 'lightningcss' transform function. Received ${typeof implementation.transform}`
       )
     }
 

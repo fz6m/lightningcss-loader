@@ -1,20 +1,20 @@
 {
-  "name": "parcel-css-loader",
-  "version": "1.1.0",
+  "name": "lightningcss-loader",
+  "version": "2.0.0",
   "main": "dist/index.js",
-  "description": "Speed up your Webpack build with parcel css",
+  "description": "Speed up your Webpack build with lightningcss",
   "keywords": [
     "css-loader",
-    "parcel-css",
-    "parcel-css-loader",
+    "lightningcss",
+    "lightningcss-loader",
     "parcel",
     "webpack-loader",
     "webpack-css-minifier"
   ],
-  "homepage": "https://github.com/fz6m/parcel-css-loader#README",
+  "homepage": "https://github.com/fz6m/lightningcss-loader#README",
   "repository": {
     "type": "git",
-    "url": "https://github.com/fz6m/parcel-css-loader"
+    "url": "https://github.com/fz6m/lightningcss-loader"
   },
   "license": "MIT",
   "author": "fz6m",
@@ -25,11 +25,12 @@
     "dev": "tsc --watch",
     "build": "rimraf dist && tsc",
     "prepare": "husky install",
-    "prepublishOnly": "pnpm build",
-    "push": "npm_config_registry=https://registry.npmjs.com/ npm publish"
+    "prepublishOnly": "pnpm check && pnpm build",
+    "push": "npm_config_registry=https://registry.npmjs.com/ npm publish",
+    "check": "tsc --noEmit"
   },
   "dependencies": {
-    "@parcel/css": "^1.13.0",
+    "lightningcss": "^1.14.0",
     "webpack-sources": "^3.2.3"
   },
   "devDependencies": {

@@ -41,5 +41,5 @@ export const getTargets = (opts: {
     env: process.env.NODE_ENV || 'production',
   })
   targetsCache[opts.key] = browserslistToTargets(result)
-  return targetsCache
+  return (targetsCache[opts.key] = browserslistToTargets(result))
 }

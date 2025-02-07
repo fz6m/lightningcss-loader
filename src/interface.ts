@@ -1,7 +1,12 @@
-import { transform, type TransformOptions } from 'lightningcss'
+import {
+  transform,
+  type TransformOptions as InternalTransformOptions,
+  type CustomAtRules,
+} from 'lightningcss'
 
 type Filter = string | RegExp
 type Implementation = typeof import('lightningcss')
+type TransformOptions = InternalTransformOptions<CustomAtRules>
 
 // minify plugin
 type AllowTransformOpts = Omit<

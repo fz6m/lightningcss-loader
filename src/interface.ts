@@ -8,24 +8,41 @@ type Filter = string | RegExp
 type Implementation = typeof import('lightningcss')
 type TransformOptions = InternalTransformOptions<CustomAtRules>
 
+// feature options
+type TransformFeature = Pick<TransformOptions, 'include' | 'exclude'>
+interface IFeatureOptions {
+  features?: TransformFeature
+}
+
 // minify plugin
-type AllowTransformOpts = Omit<
+type AllowMinifyOpts = Omit<
   TransformOptions,
-  'filename' | 'code' | 'minify' | 'cssModules' | 'targets'
+  | 'filename'
+  | 'code'
+  | 'minify'
+  | 'cssModules'
+  | 'targets'
+  | 'inputSourceMap'
+  | 'include'
+  | 'exclude'
+
   /**
-   * allow
+   * support
    *
    * @sourceMap
-   * @targets
+   * @projectRoot
    * @drafts
+   * @nonStandard
    * @analyzeDependencies
    * @pseudoClasses
    * @unusedSymbols
    * @errorRecovery
+   * @visitor
+   * @customAtRules
    */
 >
 
-export interface IMinifyPluginOpts extends AllowTransformOpts {
+export interface IMinifyPluginOpts extends AllowMinifyOpts, IFeatureOptions {
   include?: Filter | Filter[]
   exclude?: Filter | Filter[]
   targets?: string | string[]
@@ -37,17 +54,22 @@ export interface IMinifyPluginOpts extends AllowTransformOpts {
 type AllowLoaderTransformOpts = Omit<
   TransformOptions,
   'filename' | 'code' | 'targets' | 'inputSourceMap'
+
   /**
-   * allow
+   * support
    *
    * @cssModules
    * @minify
    * @sourceMap
+   * @projectRoot
    * @drafts
+   * @nonStandard
    * @analyzeDependencies
    * @pseudoClasses
    * @unusedSymbols
    * @errorRecovery
+   * @visitor
+   * @customAtRules
    */
 >
 

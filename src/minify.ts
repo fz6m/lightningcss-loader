@@ -90,6 +90,7 @@ export class LightningCssMinifyPlugin {
       exclude,
       test: testRegExp,
       targets: userTargets,
+      features: transformFeatureOptions,
       ...transformOptions
     } = this.options
 
@@ -118,6 +119,7 @@ export class LightningCssMinifyPlugin {
           minify: true,
           sourceMap: sourcemap,
           targets,
+          ...transformFeatureOptions,
           ...transformOptions,
         })
         const codeString = result.code.toString()

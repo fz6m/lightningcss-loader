@@ -29,7 +29,7 @@ module.exports = {
 ```
 
 
-### Instead postcss-loader
+### Instead of postcss-loader
 
 webpack config example:
 
@@ -84,6 +84,14 @@ module.exports = {
 ```
 
 You can see type tips for detailed configurable items
+
+## Advanced
+
+### Custom media queries
+
+`lightningcss-loader` uses a heuristic methods to support `Custom media queries` syntax. 
+
+Make sure the defined `@custom-media` file no other CSS. otherwise it may generate duplicate CSS and increase the bundle size.
 
 ## Migration from `parcel-css-loader`
 

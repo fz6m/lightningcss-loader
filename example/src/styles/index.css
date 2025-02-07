@@ -1,0 +1,12 @@
+@import './media.css';
+
+body {
+  display: flex;
+  background-color: #ffffffff;
+}
+
+@media (--small) {
+  body {
+    width: 10px;
+  }
+}

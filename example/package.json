@@ -1,0 +1,16 @@
+{
+  "name": "example",
+  "private": true,
+  "scripts": {
+    "build": "webpack --mode production"
+  },
+  "devDependencies": {
+    "lightningcss-loader": "file:../",
+    "webpack": "^5.97.1",
+    "webpack-cli": "^6.0.1"
+  },
+  "browserslist": [
+    "chrome 40",
+    "ie 10"
+  ]
+}

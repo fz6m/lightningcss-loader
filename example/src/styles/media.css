@@ -1,0 +1,9 @@
+@custom-media --small (max-width: 600px);
+
+html {
+  transition: all .1s;
+
+  & .nested {
+    color: red;
+  }
+}

@@ -1,10 +1,23 @@
 import type { LoaderContext } from 'webpack'
 import { ECacheKey, ILightningCssLoaderConfig } from './interface'
-import { transform as _transform } from 'lightningcss'
+import lightningcss from 'lightningcss'
 import { Buffer } from 'buffer'
 import { getTargets } from './utils'
 
 const LOADER_NAME = `lightningcss-loader`
+
+// match `Custom media query {} is not defined`
+// https://github.com/parcel-bundler/lightningcss/blob/master/src/error.rs#L375
+const CUSTOM_MEDIA_ERROR_REG = /Custom media query (.+?) is not defined/
+const isCustomMediaError = (err?: Error) => {
+  const msg = err?.message
+  if (!msg?.length) {
+    return false
+  }
+  const isMatch = CUSTOM_MEDIA_ERROR_REG.test(msg)
+  return isMatch
+}
+
 export async function LightningCssLoader(
   this: LoaderContext<ILightningCssLoaderConfig>,
   source: string,
@@ -23,21 +36,53 @@ export async function LightningCssLoader(
     return
   }
 
-  const transform = implementation?.transform ?? _transform
+  const transform = implementation?.transform ?? lightningcss.transform
+  const bundle = implementation?.bundle ?? lightningcss.bundle
+
+  const filename = this.resourcePath
+  const enableSourceMap = this.sourceMap
+  const targets = getTargets({ default: userTargets, key: ECacheKey.loader })
+  const inputSourceMap =
+    enableSourceMap && prevMap ? JSON.stringify(prevMap) : undefined
 
   try {
+    const codeBuffer = Buffer.from(source)
+
     const { code, map } = transform({
-      filename: this.resourcePath,
-      code: Buffer.from(source),
-      sourceMap: this.sourceMap,
-      targets: getTargets({ default: userTargets, key: ECacheKey.loader }),
-      inputSourceMap:
-        this.sourceMap && prevMap ? JSON.stringify(prevMap) : undefined,
+      filename,
+      code: codeBuffer,
+      sourceMap: enableSourceMap,
+      targets,
+      inputSourceMap,
       ...opts,
     })
     const codeAsString = code.toString()
     done(null, codeAsString, map && JSON.parse(map.toString()))
   } catch (error: unknown) {
+    // support @custom-media queries
+    const isCustomMediaEnabled = opts?.drafts?.customMedia === true
+    if (isCustomMediaEnabled) {
+      const canBundle =
+        typeof bundle === 'function' &&
+        isCustomMediaError(error as Error) &&
+        filename
+      if (canBundle) {
+        // fallback to bundle API
+        try {
+          const { code, map } = bundle({
+            filename,
+            sourceMap: enableSourceMap,
+            targets,
+            inputSourceMap,
+            ...opts,
+          })
+          const codeAsString = code.toString()
+          done(null, codeAsString, map && JSON.parse(map.toString()))
+          return
+        } catch {}
+      }
+    }
+
     done(error as Error)
   }
 }

@@ -8,7 +8,7 @@ const LOADER_NAME = `lightningcss-loader`
 export async function LightningCssLoader(
   this: LoaderContext<ILightningCssLoaderConfig>,
   source: string,
-  prevMap?: Record<string, any>
+  prevMap?: Record<string, any>,
 ): Promise<void> {
   const done = this.async()
   const options = this.getOptions()
@@ -17,8 +17,8 @@ export async function LightningCssLoader(
   if (implementation && typeof implementation.transform !== 'function') {
     done(
       new TypeError(
-        `[${LOADER_NAME}]: options.implementation.transform must be an 'lightningcss' transform function. Received ${typeof implementation.transform}`
-      )
+        `[${LOADER_NAME}]: options.implementation.transform must be an 'lightningcss' transform function. Received ${typeof implementation.transform}`,
+      ),
     )
     return
   }

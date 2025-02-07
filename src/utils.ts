@@ -23,7 +23,7 @@ type Wp5Compilation = Compilation & {
 }
 
 export const isWebpack5 = (
-  compilation: Compilation
+  compilation: Compilation,
 ): compilation is Wp5Compilation => 'processAssets' in compilation.hooks
 
 let targetsCache: Record<string, Targets> = {}

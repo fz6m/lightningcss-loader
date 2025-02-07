@@ -27,7 +27,7 @@ export class LightningCssMinifyPlugin {
     const { implementation, ...otherOpts } = opts
     if (implementation && typeof implementation.transform !== 'function') {
       throw new TypeError(
-        `[LightningCssMinifyPlugin]: implementation.transform must be an 'lightningcss' transform function. Received ${typeof implementation.transform}`
+        `[LightningCssMinifyPlugin]: implementation.transform must be an 'lightningcss' transform function. Received ${typeof implementation.transform}`,
       )
     }
 
@@ -44,7 +44,7 @@ export class LightningCssMinifyPlugin {
 
     compiler.hooks.compilation.tap(PLUGIN_NAME, (compilation) => {
       compilation.hooks.chunkHash.tap(PLUGIN_NAME, (_, hash) =>
-        hash.update(meta)
+        hash.update(meta),
       )
 
       if (isWebpack5(compilation)) {
@@ -54,7 +54,7 @@ export class LightningCssMinifyPlugin {
             stage: compilation.constructor.PROCESS_ASSETS_STAGE_OPTIMIZE_SIZE,
             additionalAssets: true,
           },
-          async () => await this.transformAssets(compilation)
+          async () => await this.transformAssets(compilation),
         )
 
         compilation.hooks.statsPrinter.tap(PLUGIN_NAME, (statsPrinter) => {
@@ -69,7 +69,7 @@ export class LightningCssMinifyPlugin {
       } else {
         compilation.hooks.optimizeChunkAssets.tapPromise(
           PLUGIN_NAME,
-          async () => await this.transformAssets(compilation)
+          async () => await this.transformAssets(compilation),
         )
       }
     })
@@ -99,7 +99,7 @@ export class LightningCssMinifyPlugin {
         !asset.info.minimized &&
         // Filter out by file type
         (testRegExp || CSS_FILE_REG).test(asset.name) &&
-        matchObject({ include, exclude }, asset.name)
+        matchObject({ include, exclude }, asset.name),
     )
 
     await Promise.all(
@@ -132,15 +132,15 @@ export class LightningCssMinifyPlugin {
                 JSON.parse(result.map!.toString()),
                 sourceAsString,
                 map as any,
-                true
+                true,
               )
             : new RawSource(codeString),
           {
             ...asset.info,
             minimized: true,
-          }
+          },
         )
-      })
+      }),
     )
   }
 }

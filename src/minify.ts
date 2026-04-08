@@ -113,15 +113,44 @@ export class LightningCssMinifyPlugin {
           key: ECacheKey.minify,
         })
 
-        const result = await this.transform({
-          filename: asset.name,
-          code,
-          minify: true,
-          sourceMap: sourcemap,
-          targets,
-          ...transformFeatureOptions,
-          ...transformOptions,
-        })
+        let result
+        try {
+          result = await this.transform({
+            filename: asset.name,
+            code,
+            minify: true,
+            sourceMap: sourcemap,
+            targets,
+            ...transformFeatureOptions,
+            ...transformOptions,
+          })
+        } catch (error: any) {
+          const fileName = error.fileName || asset.name
+          const loc = error.loc
+          let message = `${error.message || error}`
+          message += `\n  in ${fileName}`
+
+          if (loc && typeof loc.line === 'number') {
+            message += `:${loc.line}:${loc.column}`
+
+            const lines = sourceAsString.split('\n')
+            const start = Math.max(0, loc.line - 4)
+            const end = Math.min(lines.length, loc.line + 3)
+            const context = lines
+              .slice(start, end)
+              .map((line, i) => {
+                const lineNum = start + i + 1
+                const marker = lineNum === loc.line ? '>' : ' '
+                return `${marker} ${lineNum} | ${line}`
+              })
+              .join('\n')
+            message += `\n\n${context}\n`
+          }
+
+          const enhancedError = new Error(message)
+          enhancedError.stack = error.stack
+          throw enhancedError
+        }
         const codeString = result.code.toString()
 
         compilation.updateAsset(

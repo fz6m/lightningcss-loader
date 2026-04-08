@@ -130,33 +130,30 @@ export class LightningCssMinifyPlugin {
           const loc = err.loc as
             | { line: number; column?: number }
             | undefined
-          let message = `${err.message || error}`
-          message += `\n  in ${fileName}`
+
+          const messageParts: string[] = [
+            `${err.message || error}`,
+          ]
 
           if (loc && typeof loc.line === 'number') {
-            message += `:${loc.line}`
-            if (typeof loc.column === 'number') {
-              message += `:${loc.column}`
-            }
+            const position = typeof loc.column === 'number'
+              ? `${loc.line}:${loc.column}`
+              : `${loc.line}`
+            messageParts.push(`  in ${fileName}:${position}`, '')
 
             const lines = sourceAsString.split('\n')
             const start = Math.max(0, loc.line - 4)
             const end = Math.min(lines.length, loc.line + 3)
-            const context = lines
-              .slice(start, end)
-              .map((line, i) => {
-                const lineNum = start + i + 1
-                const marker = lineNum === loc.line ? '>' : ' '
-                return `${marker} ${lineNum} | ${line}`
-              })
-              .join('\n')
-            message += `\n\n${context}\n`
+            for (let i = start; i < end; i++) {
+              const lineNum = i + 1
+              const marker = lineNum === loc.line ? '>' : ' '
+              messageParts.push(`${marker} ${lineNum} | ${lines[i]}`)
+            }
+          } else {
+            messageParts.push(`  in ${fileName}`)
           }
 
-          const enhancedError = new Error(message)
-          enhancedError.stack =
-            error instanceof Error ? error.stack : undefined
-          throw enhancedError
+          throw new Error(messageParts.join('\n'), { cause: error })
         }
         const codeString = result.code.toString()
 

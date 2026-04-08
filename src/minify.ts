@@ -113,15 +113,48 @@ export class LightningCssMinifyPlugin {
           key: ECacheKey.minify,
         })
 
-        const result = await this.transform({
-          filename: asset.name,
-          code,
-          minify: true,
-          sourceMap: sourcemap,
-          targets,
-          ...transformFeatureOptions,
-          ...transformOptions,
-        })
+        let result
+        try {
+          result = await this.transform({
+            filename: asset.name,
+            code,
+            minify: true,
+            sourceMap: sourcemap,
+            targets,
+            ...transformFeatureOptions,
+            ...transformOptions,
+          })
+        } catch (error: unknown) {
+          const err = error as Record<string, any>
+          const fileName = err.fileName || asset.name
+          const loc = err.loc as
+            | { line: number; column?: number }
+            | undefined
+
+          const messageParts: string[] = [
+            `${err.message || error}`,
+          ]
+
+          if (loc && typeof loc.line === 'number') {
+            const position = typeof loc.column === 'number'
+              ? `${loc.line}:${loc.column}`
+              : `${loc.line}`
+            messageParts.push(`  in ${fileName}:${position}`, '')
+
+            const lines = sourceAsString.split('\n')
+            const start = Math.max(0, loc.line - 4)
+            const end = Math.min(lines.length, loc.line + 3)
+            for (let i = start; i < end; i++) {
+              const lineNum = i + 1
+              const marker = lineNum === loc.line ? '>' : ' '
+              messageParts.push(`${marker} ${lineNum} | ${lines[i]}`)
+            }
+          } else {
+            messageParts.push(`  in ${fileName}`)
+          }
+
+          throw new Error(messageParts.join('\n'), { cause: error })
+        }
         const codeString = result.code.toString()
 
         compilation.updateAsset(

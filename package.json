@@ -31,7 +31,7 @@
   },
   "dependencies": {
     "browserslist": "^4.24.4",
-    "lightningcss": "^1.29.1",
+    "lightningcss": "^1.32.0",
     "webpack-sources": "^3.2.3"
   },
   "devDependencies": {

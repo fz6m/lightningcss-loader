@@ -127,18 +127,15 @@ export class LightningCssMinifyPlugin {
         } catch (error: unknown) {
           const err = error as Record<string, any>
           const fileName = err.fileName || asset.name
-          const loc = err.loc as
-            | { line: number; column?: number }
-            | undefined
+          const loc = err.loc as { line: number; column?: number } | undefined
 
-          const messageParts: string[] = [
-            `${err.message || error}`,
-          ]
+          const messageParts: string[] = [`${err.message || error}`]
 
           if (loc && typeof loc.line === 'number') {
-            const position = typeof loc.column === 'number'
-              ? `${loc.line}:${loc.column}`
-              : `${loc.line}`
+            const position =
+              typeof loc.column === 'number'
+                ? `${loc.line}:${loc.column}`
+                : `${loc.line}`
             messageParts.push(`  in ${fileName}:${position}`, '')
 
             const lines = sourceAsString.split('\n')
@@ -153,7 +150,40 @@ export class LightningCssMinifyPlugin {
             messageParts.push(`  in ${fileName}`)
           }
 
-          throw new Error(messageParts.join('\n'), { cause: error })
+          const tipsMessage = []
+          const errorMessage = messageParts.join('\n')
+          const maySyntaxError = errorMessage.includes('SyntaxError:')
+          if (maySyntaxError) {
+            tipsMessage.push('')
+            // Tips: `errorRecovery: true`
+            // https://lightningcss.dev/docs.html#error-recovery
+            const tipLine = '='.repeat(80)
+            tipsMessage.push(tipLine)
+            tipsMessage.push(
+              `\n[LightningCssMinifyPlugin] This error might be caused by a syntax error in the CSS. \n\nLightningCSS has an 'errorRecovery' option that can be enabled to attempt to recover from syntax errors and provide more detailed error messages. You can enable it in the plugin options:`,
+            )
+            tipsMessage.push(`
+  new LightningCssMinifyPlugin({
+    // other options...
+    errorRecovery: true,
+  })
+`)
+            tipsMessage.push(tipLine)
+          }
+
+          // print tips
+          console.log()
+          console.log(tipsMessage.join('\n'))
+          // print error
+          console.log()
+          console.log(`[LightningCssMinifyPlugin] LightningCSS error:`)
+          console.log(errorMessage)
+          console.log()
+
+          // throw
+          throw new Error('[LightningCssMinifyPlugin] minification failed', {
+            cause: error,
+          })
         }
         const codeString = result.code.toString()
 

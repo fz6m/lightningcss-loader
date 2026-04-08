@@ -51,5 +51,13 @@ module.exports = {
       },
     ],
   },
-  plugins: [new LightningCssMinifyPlugin(disableNesting ? minifyOpts : {})],
+  plugins: [
+    new LightningCssMinifyPlugin(
+      disableNesting
+        ? minifyOpts
+        : {
+            errorRecovery: true,
+          },
+    ),
+  ],
 }

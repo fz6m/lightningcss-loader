@@ -124,14 +124,20 @@ export class LightningCssMinifyPlugin {
             ...transformFeatureOptions,
             ...transformOptions,
           })
-        } catch (error: any) {
-          const fileName = error.fileName || asset.name
-          const loc = error.loc
-          let message = `${error.message || error}`
+        } catch (error: unknown) {
+          const err = error as Record<string, any>
+          const fileName = err.fileName || asset.name
+          const loc = err.loc as
+            | { line: number; column?: number }
+            | undefined
+          let message = `${err.message || error}`
           message += `\n  in ${fileName}`
 
           if (loc && typeof loc.line === 'number') {
-            message += `:${loc.line}:${loc.column}`
+            message += `:${loc.line}`
+            if (typeof loc.column === 'number') {
+              message += `:${loc.column}`
+            }
 
             const lines = sourceAsString.split('\n')
             const start = Math.max(0, loc.line - 4)
@@ -148,7 +154,8 @@ export class LightningCssMinifyPlugin {
           }
 
           const enhancedError = new Error(message)
-          enhancedError.stack = error.stack
+          enhancedError.stack =
+            error instanceof Error ? error.stack : undefined
           throw enhancedError
         }
         const codeString = result.code.toString()
